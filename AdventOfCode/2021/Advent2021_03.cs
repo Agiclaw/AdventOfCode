@@ -14,37 +14,10 @@ namespace AdventOfCode._2021
       StringBuilder gamma = new StringBuilder("000000000000");
       StringBuilder epsilon = new StringBuilder("000000000000");
 
-      var count0 = 0;
-      var count1 = 0;
-
-      for (int i = 0; i < 12; i++)
+      for (int i = 0; i < lines[0].Length; i++)
       {
-        for (int j = 0; j < lines.Count; j++)
-        {
-          var character = lines[j][i];
-          if (character == '0')
-          {
-            count0++;
-          }
-          else
-          {
-            count1++;
-          }
-        }
-
-        if( count0 > count1)
-        {
-          gamma[i] = '0';
-          epsilon[i] = '1';
-        }
-        else
-        {
-          gamma[i] = '1';
-          epsilon[i] = '0';
-        }
-
-        count0 = 0;
-        count1 = 0;
+        gamma[i] = Commonality(lines, i);
+        epsilon[i] = gamma[i] == '0' ? '1' : '0';
       }
 
       return Convert.ToInt32(gamma.ToString(), 2) * Convert.ToInt32(epsilon.ToString(), 2);
@@ -58,10 +31,9 @@ namespace AdventOfCode._2021
       var c02Value = 0;
 
       var workingList = new List<string>(lines);
-
-      for (int i = 0; i < 12; i++)
+      for (int i = 0; i < lines[0].Length; i++)
       {
-        var common = FindMostCommon(workingList, i);
+        var common = Commonality(workingList, i, true, '1');
 
         workingList = workingList.Where(l => l[i] == common).ToList<string>();
         if (workingList.Count == 1)
@@ -72,11 +44,11 @@ namespace AdventOfCode._2021
       }
 
       workingList = new List<string>(lines);
-      for (int i = 0; i < 12; i++)
+      for (int i = 0; i < lines[0].Length; i++)
       {
-        var common = FindLeastCommon(workingList, i);
+        var uncommon = Commonality(workingList, i, false, '0');
 
-        workingList = workingList.Where(l => l[i] == common).ToList<string>();
+        workingList = workingList.Where(l => l[i] == uncommon).ToList<string>();
         if (workingList.Count == 1)
         {
           c02Value = Convert.ToInt32(workingList[0].ToString(), 2);
@@ -87,7 +59,7 @@ namespace AdventOfCode._2021
       return oxValue * c02Value;
     }
 
-    public char FindMostCommon( List<string> list, int index)
+    public char Commonality( List<string> list, int index, bool mostCommon = true, char defaultChar = '1')
     {
       var dictionary = new Dictionary<char, int>();
 
@@ -100,29 +72,10 @@ namespace AdventOfCode._2021
 
       if( dictionary['0'] == dictionary['1'])
       {
-        return '1';
+        return defaultChar;
       }
 
-      return dictionary.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-    }
-
-    public char FindLeastCommon(List<string> list, int index)
-    {
-      var dictionary = new Dictionary<char, int>();
-
-      list.ForEach(s =>
-      {
-        int currentCount = 0;
-        dictionary.TryGetValue(s[index], out currentCount);
-        dictionary[s[index]] = currentCount + 1;
-      });
-
-      if (dictionary['0'] == dictionary['1'])
-      {
-        return '0';
-      }
-
-      return dictionary.Aggregate((x, y) => x.Value < y.Value ? x : y).Key;
+      return dictionary.Aggregate((x, y) => mostCommon ? (x.Value > y.Value ? x : y) : (x.Value < y.Value ? x : y)).Key;
     }
 
     public List<string> ParseInput(string input)
