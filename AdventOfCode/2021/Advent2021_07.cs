@@ -13,9 +13,6 @@ namespace AdventOfCode._2021
     {
       var lines = ParseInput(input);
 
-      var total = lines.Sum();
-      lines = lines.OrderBy(x => x).ToList();
-
       long minDistance = Int64.MaxValue;
 
       for (int i = 0; i < lines.Count; i++)
@@ -30,9 +27,6 @@ namespace AdventOfCode._2021
     public object Part2(string input)
     {
       var lines = ParseInput(input);
-
-      var total = lines.Sum();
-      lines = lines.OrderBy(x => x).ToList();
 
       long minDistance = Int64.MaxValue;
 
