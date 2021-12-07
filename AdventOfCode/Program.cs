@@ -26,41 +26,53 @@ namespace AdventOfCode
 
       rootCommand.Handler = CommandHandler.Create<int, int>((year, day) =>
       {
-        var typeName = $"AdventOfCode._{year}.Advent{year}_{day.ToString("00")}";
+        var name = $"{ year }_{ day.ToString("00")}";
+        var typeName = $"AdventOfCode._{year}.Advent{name}";
         Type type = Type.GetType(typeName);
         if (type == null)
         {
           throw new Exception($"{typeName} not found.");
         }
 
-        // GetOrCache Input
-        string input = GetOrCacheAdventInput(year, day, 1);
-
         var advent = Activator.CreateInstance(type) as IAdventProblem;
-        Console.WriteLine($"Advent: {year}_{day.ToString("00")} Part 1:\t{advent.Part1(input)}");
-        Console.WriteLine($"Advent: {year}_{day.ToString("00")} Part 2:\t{advent.Part2(input)}");
+
+        // GetOrCache Input
+        string data = GetOrCacheAdventInput(year, day, true);
+        Console.WriteLine($"Advent: {name} Part 1 (test):\t{(data == string.Empty ? "No input data available." : advent.Part1(data))}");
+        Console.WriteLine($"Advent: {name} Part 2 (test):\t{(data == string.Empty ? "No input data available." : advent.Part2(data))}");
+
+        data = GetOrCacheAdventInput(year, day, false);
+        Console.WriteLine($"Advent: {name} Part 1 (real):\t{(data == string.Empty ? "No input data available." : advent.Part1(data))}");
+        Console.WriteLine($"Advent: {name} Part 2 (real):\t{(data == string.Empty ? "No input data available." : advent.Part2(data))}");
       });
 
       return rootCommand.Invoke(args);
     }
 
-    public static string GetOrCacheAdventInput(int year, int day, int part)
+    public static string GetOrCacheAdventInput(int year, int day, bool fetchTestData)
     {
       var userDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AventOfCode");
       var cacheDirectory = Path.Combine(userDirectory, $"{year}", $"{day}");
       Directory.CreateDirectory(cacheDirectory);
 
-      var filePath = Path.Combine(cacheDirectory, $"part{part}");
+      var filePath = Path.Combine(cacheDirectory, $"{(fetchTestData == true ? "test" : "real")}Data");
       if (File.Exists(filePath))
       {
         return File.ReadAllText(filePath);
+      }
+
+      // If the test data doesn't exist, write the stub file and return
+      if( !File.Exists(filePath) && fetchTestData)
+      {
+        File.WriteAllText(filePath, string.Empty);
+        return string.Empty;
       }
 
       try
       {
         var sessionToken = File.ReadAllText(Path.Combine(userDirectory, $"session.token"));
 
-        var site = $"https://adventofcode.com/{year}/day/{day}/input";
+        var site = $"https://adventofcode.com/{year}/day/{day}{(fetchTestData == true ? "" : "/input")}";
         HttpWebRequest request = WebRequest.Create(site) as HttpWebRequest;
         request.Headers.Add(HttpRequestHeader.Cookie, $"session={sessionToken}");
 
@@ -76,6 +88,7 @@ namespace AdventOfCode
         }
 
         File.WriteAllText(filePath, responseText);
+
         return responseText;
       }
       catch( Exception exception )
