@@ -6,17 +6,17 @@ namespace AdventOfCode._2020
 {
   class Advent2020_01 : IAdventProblem
   {
-    public object Part1(string input)
+    public object Part1(string input, bool isTestData)
     {
       return FindAndMultiplyComponentsOfSum(2020, 2, parseInput(input));
     }
 
-    public object Part2(string input)
+    public object Part2(string input, bool isTestData)
     {
       return FindAndMultiplyComponentsOfSum(2020, 3, parseInput(input));
     }
 
-    public List<int> parseInput( string input )
+    public List<int> parseInput(string input)
     {
       var inputStrings = input.Trim().Split("\n");
 

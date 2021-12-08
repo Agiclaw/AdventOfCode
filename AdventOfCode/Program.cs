@@ -38,8 +38,8 @@ namespace AdventOfCode
 
         // GetOrCache Input
         string data = GetOrCacheAdventInput(year, day, true);
-        Console.WriteLine($"Advent: {name} Part 1 (test):\t{(data == string.Empty ? "No input data available." : advent.Part1(data))}");
-        Console.WriteLine($"Advent: {name} Part 2 (test):\t{(data == string.Empty ? "No input data available." : advent.Part2(data))}");
+        Console.WriteLine($"Advent: {name} Part 1 (test):\t{(data == string.Empty ? "No input data available." : advent.Part1(data,true))}");
+        Console.WriteLine($"Advent: {name} Part 2 (test):\t{(data == string.Empty ? "No input data available." : advent.Part2(data,true))}");
 
         data = GetOrCacheAdventInput(year, day, false);
         Console.WriteLine($"Advent: {name} Part 1 (real):\t{(data == string.Empty ? "No input data available." : advent.Part1(data))}");

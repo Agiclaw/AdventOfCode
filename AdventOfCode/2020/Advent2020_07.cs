@@ -9,7 +9,7 @@ namespace AdventOfCode._2020
   {
     public Dictionary<string, Bag> Bags = new Dictionary<string, Bag>();
 
-    public object Part1(string input)
+    public object Part1(string input, bool isTestData)
     {
       ParseInput(input);
 
@@ -20,7 +20,7 @@ namespace AdventOfCode._2020
       return canContain.Count;
     }
 
-    public object Part2(string input)
+    public object Part2(string input, bool isTestData)
     {
       var contains = new List<Bag>();
 

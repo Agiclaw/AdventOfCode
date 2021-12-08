@@ -9,7 +9,7 @@ namespace AdventOfCode._2021
 {
   class Advent2021_07 : IAdventProblem
   {
-    public object Part1(string input)
+    public object Part1(string input, bool isTestData)
     {
       var lines = ParseInput(input);
 
@@ -24,7 +24,7 @@ namespace AdventOfCode._2021
       return minDistance;
     }
 
-    public object Part2(string input)
+    public object Part2(string input, bool isTestData)
     {
       var lines = ParseInput(input);
 

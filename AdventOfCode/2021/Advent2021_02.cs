@@ -13,7 +13,7 @@ namespace AdventOfCode._2021
       set;
     }
 
-    public object Part1(string input)
+    public object Part1(string input, bool isTestData)
     {
       var lines = ParseInput(input);
 
@@ -48,7 +48,7 @@ namespace AdventOfCode._2021
       return x * y;
     }
 
-    public object Part2(string input)
+    public object Part2(string input, bool isTestData)
     {
       var lines = ParseInput(input);
 

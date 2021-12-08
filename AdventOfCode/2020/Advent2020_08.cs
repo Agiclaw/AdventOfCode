@@ -17,13 +17,13 @@ namespace AdventOfCode._2020
       set;
     }
 
-    public object Part1(string input)
+    public object Part1(string input, bool isTestData)
     {
       Run(ParseInput(input));
       return Accumulator;
     }
 
-    public object Part2(string input)
+    public object Part2(string input, bool isTestData)
     {
       var instuctions = ParseInput(input);
       for ( int i = 0; i < instuctions.Length; i++ )

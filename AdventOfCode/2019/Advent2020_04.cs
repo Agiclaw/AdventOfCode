@@ -6,7 +6,7 @@ namespace AdventOfCode._2019
 {
   class Advent2020_04 : IAdventProblem
   {
-    public object Part1(string input)
+    public object Part1(string input, bool isTestData)
     {
       var count = 0;
       for( int i = 125730; i <= 579381; i++)
@@ -20,7 +20,7 @@ namespace AdventOfCode._2019
       return 0;
     }
 
-    public object Part2(string input)
+    public object Part2(string input, bool isTestData)
     {
       return 0;
     }

@@ -6,7 +6,7 @@ namespace AdventOfCode
 {
   interface IAdventProblem
   {
-    object Part1(string input);
-    object Part2(string input);
+    object Part1(string input, bool isTestData = false);
+    object Part2(string input, bool isTestData = false);
   }
 }
