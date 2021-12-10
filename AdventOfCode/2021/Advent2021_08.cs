@@ -27,20 +27,20 @@ namespace AdventOfCode._2021
     {
       var lines = ParseInput(input);
 
-      var count = 0;
+      var total = 0;
 
       foreach (var lin in lines)
       {
         var line = lin.Split("|");
-        var d = line[0].Trim().Split(" ").ToList();
-        var o = line[1].Trim().Split(" ").ToList();
+        var data = line[0].Trim().Split(" ").ToList();
+        var output = line[1].Trim().Split(" ").ToList();
 
         var possibilities = new Dictionary<string, List<int>>();
 
-        count += Deduce(d, o);
+        total += Deduce(data, output);
       }
 
-      return count;
+      return total;
 
     }
 
@@ -125,7 +125,6 @@ namespace AdventOfCode._2021
             break;
           }
         }
-
       }
 
       return Convert.ToInt32(sb.ToString());
