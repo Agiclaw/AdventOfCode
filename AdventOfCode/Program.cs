@@ -37,13 +37,14 @@ namespace AdventOfCode
         var advent = Activator.CreateInstance(type) as IAdventProblem;
 
         // GetOrCache Input
-        string data = GetOrCacheAdventInput(year, day, true);
-        Console.WriteLine($"Advent: {name} Part 1 (test):\t{(data == string.Empty ? "No input data available." : advent.Part1(data,true))}");
-        Console.WriteLine($"Advent: {name} Part 2 (test):\t{(data == string.Empty ? "No input data available." : advent.Part2(data,true))}");
+        string testData = GetOrCacheAdventInput(year, day, true);
+        string realData = GetOrCacheAdventInput(year, day, false);
 
-        data = GetOrCacheAdventInput(year, day, false);
-        Console.WriteLine($"Advent: {name} Part 1 (real):\t{(data == string.Empty ? "No input data available." : advent.Part1(data))}");
-        Console.WriteLine($"Advent: {name} Part 2 (real):\t{(data == string.Empty ? "No input data available." : advent.Part2(data))}");
+        Console.WriteLine($"Advent: {name} Part 1 (test):\t{(testData == string.Empty ? "No input data available." : advent.Part1(testData, true))}");
+        Console.WriteLine($"Advent: {name} Part 1 (real):\t{(realData == string.Empty ? "No input data available." : advent.Part1(realData))}");
+        Console.WriteLine("");
+        Console.WriteLine($"Advent: {name} Part 2 (test):\t{(testData == string.Empty ? "No input data available." : advent.Part2(testData, true))}");
+        Console.WriteLine($"Advent: {name} Part 2 (real):\t{(realData == string.Empty ? "No input data available." : advent.Part2(realData))}");
       });
 
       return rootCommand.Invoke(args);

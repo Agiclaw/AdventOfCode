@@ -15,9 +15,6 @@ namespace AdventOfCode._2021
 
     public object Part1(string input, bool isTestData)
     {
-      var hor = 0;
-      var depth = 0;
-
       var ints = ParseInput(input).Select(s => Convert.ToInt32(s)).ToList();
       int previous = Int32.MaxValue;
       int count = 0;
