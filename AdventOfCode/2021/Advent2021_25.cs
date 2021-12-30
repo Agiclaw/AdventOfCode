@@ -44,18 +44,30 @@ namespace AdventOfCode._2021
         steps = 0;
         rounds++;
 
+        var modified = new HashSet<Tuple<int, int>>();
+
         // Iterate the grid
-        for (int y = yMax-1; y >= 0; y--)
+        for (int y = 0; y < yMax; y++)
         {
-          for (int x = xMax-1; x >= 0; x--)
+          for (int x = 0; x < xMax; x++)
           {
-            if ( grid[x,y] == '.')
+            if ( grid[x,y] == '>')
             {
-              var tempX = x == 0 ? xMax-1 : x;
-              if(grid[tempX, y] == '>')
+              var tempX = x == xMax - 1 ? 0 : x + 1;
+
+              if (modified.Contains(Tuple.Create(x, y)) || modified.Contains(Tuple.Create(tempX, y)))
               {
-                grid[tempX, y] = '.';
-                grid[x, y] = '>';
+                continue;
+              }
+
+              if (grid[tempX, y] == '.')
+              {
+                grid[tempX, y] = '>';
+                grid[x, y] = '.';
+
+                modified.Add(Tuple.Create(tempX, y));
+                modified.Add(Tuple.Create(x, y));
+
                 steps++;
                 totalSteps++;
               }
@@ -63,18 +75,30 @@ namespace AdventOfCode._2021
           }
         }
 
+        modified.Clear();
+
         // Iterate the grid
-        for (int y = yMax - 1; y >= 0; y--)
+        for (int y = 0; y < yMax; y++)
         {
-          for (int x = xMax - 1; x >= 0; x--)
+          for (int x = 0; x < xMax; x++)
           {
-            if (grid[x, y] == '.')
+            if (grid[x, y] == 'v')
             {
-              var tempY = y == 0 ? yMax-1 : y;
-              if (grid[x, tempY] == 'v')
+              var tempY = y == yMax - 1 ? 0 : y + 1;
+
+              if (modified.Contains(Tuple.Create(x, y)) || modified.Contains(Tuple.Create(x, tempY)))
               {
-                grid[x, tempY] = '.';
-                grid[x, y] = 'v';
+                continue;
+              }
+
+              if (grid[x, tempY] == '.')
+              {
+                grid[x, tempY] = 'v';
+                grid[x, y] = '.';
+
+                modified.Add(Tuple.Create(x, tempY));
+                modified.Add(Tuple.Create(x, y));
+
                 steps++;
                 totalSteps++;
               }
@@ -82,8 +106,9 @@ namespace AdventOfCode._2021
           }
         }
 
+        Console.WriteLine($"Round: {rounds}");
         Print(grid, xMax, yMax);
-      } while (steps > 0);
+      } while (steps > 0 );
 
       return rounds;
     }
